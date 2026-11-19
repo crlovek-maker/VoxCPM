@@ -1,0 +1,29 @@
+{
+  "name": "samnieng-ai-studio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "សំនៀង AI Studio — Khmer-first lyrics-to-song web app with a swappable music provider adapter",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "e2e": "node scripts/e2e.mjs",
+    "live-check": "tsx scripts/live-check.ts"
+  },
+  "dependencies": {
+    "@fontsource-variable/noto-sans-khmer": "^5.3.0",
+    "next": "^16.4.6",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.1"
+  }
+}
