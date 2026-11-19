@@ -1,0 +1,96 @@
+{
+  "id": "e873eadb-3c9a-474c-8792-d1d45af2def8",
+  "createdAt": "2026-11-19T11:12:32.410Z",
+  "updatedAt": "2026-11-19T11:12:32.434Z",
+  "status": "failed",
+  "stage": "generating",
+  "progress": null,
+  "provider": {
+    "id": "elevenlabs",
+    "label": "ElevenLabs Music",
+    "mode": "live",
+    "model": "music_v1"
+  },
+  "input": {
+    "title": "ព្រះច័ន្ទលើទន្លេមេគង្គា",
+    "lyrics": "[Intro]\n\n[Verse 1]\nយប់នេះខែភ្លឺ លើទន្លេមេគង្គា\nខ្យល់ត្រជាក់បក់មក នាំចិត្តនឹកដល់នាង\nអង្គុយម្នាក់ឯង ស្តាប់សំឡេងទឹកហូរ\nដូចជាសំឡេងនាង ដែលខ្ញុំធ្លាប់ស្តាប់ជានិច្ច\n\n[Verse 2]\nខ្ញុំក៏នៅទីនេះ មើលព្រះចន្ទដូចគ្នា\nបើទោះឆ្ងាយពីគ្នា ចិត្តយើងនៅជិតជានិច្ច\nរាល់ទឹកភ្នែកដែលហូរ ខ្ញុំរក្សាទុកក្នុងបេះដូង\nរង់ចាំថ្ងៃដែលយើង បានជួបគ្នាម្តងទៀត\n\n[Chorus]\nឱព្រះចន្ទអើយ សូមបំភ្លឺផ្លូវឱ្យយើង\nឱខ្យល់អើយ សូមនាំពាក្យស្រលាញ់ទៅដល់\nទោះយប់វែងប៉ុណ្ណា ទោះផ្លូវឆ្ងាយប៉ុណ្ណា\nខ្ញុំនៅតែរង់ចាំ អូនជាពន្លឺរបស់ខ្ញុំ\n\n[Bridge]\nថ្ងៃទី ១៥ ខែមេសា ជាថ្ងៃដែលយើងបានជួប\nពាក្យសន្យាតូចមួយ នៅតែនៅក្នុងចិត្ត\n\n[Outro]\nខែភ្លឺអើយ សូមនៅជាមួយយើង\n",
+    "presetId": "khmer-sad-ballad",
+    "stylePrompt": "Khmer sad ballad, slow tempo around 64 BPM, minor key, soft piano, tro khmer fiddle and khim dulcimer, warm string pad, gentle brushed percussion, melancholic and tender",
+    "vocalMode": "duet",
+    "voiceDirection": "duet-warm",
+    "voiceCustom": "",
+    "sectionVoices": {
+      "1": "male",
+      "2": "female",
+      "3": "both",
+      "4": "both"
+    },
+    "outputMode": "full",
+    "targetSeconds": 150,
+    "hints": {
+      "ថ្ងៃទី ១៥ ខែមេសា ជាថ្ងៃដែលយើងបានជួប": "១៥ is read 'dop-bram' (fifteen); មេសា 'me-sa' (April)",
+      "ឱព្រះចន្ទអើយ សូមបំភ្លឺផ្លូវឱ្យយើង": "ព្រះចន្ទ = preah-chan (the moon)"
+    },
+    "sendHints": true,
+    "naturalSinging": true
+  },
+  "inputHash": "3cdb32cde688201df10d17a9f74d4c8c",
+  "controls": [
+    {
+      "id": "title",
+      "status": "local",
+      "detail": "Kept in your library only; the provider has no title field."
+    },
+    {
+      "id": "lyrics",
+      "status": "applied",
+      "detail": "15 lines sent verbatim; your editor text is never rewritten."
+    },
+    {
+      "id": "structure",
+      "status": "applied",
+      "detail": "6 sections with estimated durations."
+    },
+    {
+      "id": "style",
+      "status": "guidance",
+      "detail": "Free-text style, instruments, mood and tempo are interpreted by the model and may not be followed exactly."
+    },
+    {
+      "id": "voiceDirection",
+      "status": "guidance",
+      "detail": "Voice character is described in text; it is not a selectable voice ID."
+    },
+    {
+      "id": "sectionVoice",
+      "status": "guidance",
+      "detail": "Per-section male / female / both assignments are written into each section's style text."
+    },
+    {
+      "id": "hints",
+      "status": "guidance",
+      "detail": "Hints appended to section style text; the model may ignore them."
+    },
+    {
+      "id": "natural",
+      "status": "guidance",
+      "detail": "Breaths, vibrato, intimacy/build and low-reverb direction are text guidance."
+    },
+    {
+      "id": "customVoice",
+      "status": "unavailable",
+      "detail": "Custom / cloned voices are not supported by this adapter."
+    },
+    {
+      "id": "length",
+      "status": "guidance",
+      "detail": "Section durations are requested; the provider decides the final length."
+    }
+  ],
+  "warnings": [],
+  "error": {
+    "code": "PROVIDER_AUTH",
+    "message": "The provider rejected the API key (HTTP 401). mock provider returned 401",
+    "retryable": false
+  }
+}
