@@ -1,0 +1,368 @@
+{
+  "engine": "selftest",
+  "device": "desktop",
+  "started": "2026-11-23T03:17:18.404Z",
+  "steps": [
+    {
+      "name": "1. បើកកម្មវិធី និងពិនិត្យស្ថានភាព",
+      "ok": true,
+      "seconds": 0.2,
+      "evidence": {
+        "ffmpeg": {
+          "ok": true,
+          "has_ass": true,
+          "path": "/usr/bin/ffmpeg"
+        },
+        "engine": {
+          "id": "selftest",
+          "name": "របៀបសាកល្បងប្រព័ន្ធ (មិនមែន AI)",
+          "is_ai": false,
+          "state": "ready"
+        },
+        "engine_health_detail": {}
+      }
+    },
+    {
+      "name": "2. គម្រោងថ្មី ចាប់ផ្ដើមពីទំនុកខ្មែរ ៤ បន្ទាត់ (គ្មាន MP3 ជាមុន)",
+      "ok": true,
+      "seconds": 0.2,
+      "evidence": {
+        "project_id": "p_20261123_dfbea85c",
+        "section_type": "chorus",
+        "lines": 4,
+        "versions_before": 0
+      }
+    },
+    {
+      "name": "3. ជ្រើសម៉ូដែល «របៀបសាកល្បងប្រព័ន្ធ» ហើយចុច «សាកល្បង Chorus ខ្លី»",
+      "ok": true,
+      "seconds": 0.2,
+      "evidence": null
+    },
+    {
+      "name": "4. ស្ថានភាពការងារពិត រហូតដល់បញ្ចប់ (ជោគជ័យ)",
+      "ok": true,
+      "seconds": 3.7,
+      "evidence": {
+        "final": "ជោគជ័យ",
+        "transitions": 4,
+        "first": {
+          "t": 0,
+          "status": "រង់ចាំក្នុងជួរ",
+          "message": "កំពុងរង់ចាំក្នុងជួរ",
+          "progress": null,
+          "meta": "របៀបសាកល្បងប្រព័ន្ធ (មិនមែន AI) · ពេលវេលា 0:00 · លំដាប់ក្នុងជួរ: 1"
+        },
+        "last": {
+          "t": 3.6,
+          "status": "ជោគជ័យ",
+          "message": "រួចរាល់",
+          "progress": "100%",
+          "meta": "របៀបសាកល្បងប្រព័ន្ធ (មិនមែន AI) · ពេលវេលា 0:02"
+        }
+      }
+    },
+    {
+      "name": "5. ស្ដាប់ក្នុងកម្មវិធី និងទាញយក WAV / MP3 ភ្លាមៗ",
+      "ok": true,
+      "seconds": 2.2,
+      "evidence": {
+        "played_seconds_in_browser": 1.74,
+        "wav": {
+          "bytes": 1764078,
+          "codec": "pcm_s16le",
+          "rate": "44100",
+          "seconds": 10
+        },
+        "mp3": {
+          "bytes": 241491,
+          "codec": "mp3",
+          "seconds": 10.03102
+        },
+        "version": {
+          "id": "v_20261123_40433469",
+          "kind": "chorus_test",
+          "engine": {
+            "id": "selftest",
+            "name": "របៀបសាកល្បងប្រព័ន្ធ (មិនមែន AI)",
+            "is_ai": false,
+            "license": "—"
+          },
+          "analysis": {
+            "mean_db": -17.9,
+            "peak_db": -3.1,
+            "leading_silence": 0,
+            "trailing_silence": 0,
+            "silent_seconds": 0
+          },
+          "warnings": [],
+          "caption_sent": "Khmer pop ballad, slow tempo, emotional, tender, soft piano and acoustic guitar, bamboo flute (khloy), flute, acoustic guitar",
+          "request_sent": {
+            "duration": 10,
+            "bpm": 100,
+            "key_scale": "A minor",
+            "seed": 3839,
+            "lyrics_ignored": true
+          },
+          "notes": [
+            "របៀបសាកល្បងមិនប្រើទំនុក និងគ្មានសំឡេងច្រៀង — មិនមែនលទ្ធផល AI"
+          ]
+        }
+      }
+    },
+    {
+      "name": "6. រូបគម្រប៖ នាំចូលរូប ដាក់ចំណងជើងខ្មែរ រក្សាទុក (16:9) ជាផ្ទៃខាងក្រោយ MV",
+      "ok": true,
+      "seconds": 3.5,
+      "evidence": {
+        "aspects_saved": [
+          "16:9"
+        ],
+        "mv_background": "plain_16x9_1795403847293.png",
+        "png_bytes": 360027,
+        "has_text": true,
+        "size": "1920x1080"
+      }
+    },
+    {
+      "name": "7. MV ខារ៉ាអូខេ៖ ចុចកំណត់ពេលចាប់ផ្ដើមឃ្លាទាំង ៤ ពេលកំពុងស្ដាប់",
+      "ok": true,
+      "seconds": 9.1,
+      "evidence": {
+        "tapped_at_seconds": [
+          0.45,
+          2.85,
+          5.24,
+          7.65
+        ],
+        "input_values": [
+          "0:00.44",
+          "0:02.84",
+          "0:05.24",
+          "0:07.64"
+        ],
+        "saved_start_times": [
+          0.44,
+          2.84,
+          5.24,
+          7.64
+        ],
+        "lines_match_original": true
+      }
+    },
+    {
+      "name": "8. មើលស៊ុមពិត (libass) ជាមុន",
+      "ok": true,
+      "seconds": 1.4,
+      "evidence": {
+        "img_box": {
+          "w": 866,
+          "h": 487
+        }
+      }
+    },
+    {
+      "name": "9. បង្កើត MP4 1280x720",
+      "ok": true,
+      "seconds": 4.6,
+      "evidence": {
+        "file": "karaoke_1280x720.mp4",
+        "bytes": 366490,
+        "video": "h264 1280x720 yuv420p",
+        "audio": "aac 48000Hz",
+        "seconds": 10,
+        "song_seconds": 10,
+        "browser_video_meta": {
+          "w": 1280,
+          "h": 720,
+          "d": 10
+        }
+      }
+    },
+    {
+      "name": "9. បង្កើត MP4 1080x1920",
+      "ok": true,
+      "seconds": 8.2,
+      "evidence": {
+        "file": "karaoke_1080x1920.mp4",
+        "bytes": 428781,
+        "video": "h264 1080x1920 yuv420p",
+        "audio": "aac 48000Hz",
+        "seconds": 10,
+        "song_seconds": 10,
+        "browser_video_meta": {
+          "w": 1080,
+          "h": 1920,
+          "d": 10
+        }
+      }
+    },
+    {
+      "name": "10. រៀបចំបង្ហោះ៖ Description / Credits / Hashtags + ចម្លងមួយចុច",
+      "ok": true,
+      "seconds": 0.3,
+      "evidence": {
+        "clipboard_has_description": true,
+        "platforms": [
+          {
+            "t": "▶ YouTube",
+            "chars": 470
+          },
+          {
+            "t": "📘 Facebook",
+            "chars": 426
+          },
+          {
+            "t": "🎵 TikTok",
+            "chars": 148
+          }
+        ]
+      }
+    },
+    {
+      "name": "11. បិទ/បើកឡើងវិញ៖ គម្រោងនៅដដែល (កែបន្តបាន)",
+      "ok": true,
+      "seconds": 0.1,
+      "evidence": {
+        "times_after_reload": [
+          "0:00.44",
+          "0:02.84",
+          "0:05.24",
+          "0:07.64"
+        ],
+        "mv_videos_listed": 2
+      }
+    }
+  ],
+  "problems": [],
+  "evidence": {
+    "job_timeline": [
+      {
+        "t": 0,
+        "status": "រង់ចាំក្នុងជួរ",
+        "message": "កំពុងរង់ចាំក្នុងជួរ",
+        "progress": null,
+        "meta": "របៀបសាកល្បងប្រព័ន្ធ (មិនមែន AI) · ពេលវេលា 0:00 · លំដាប់ក្នុងជួរ: 1"
+      },
+      {
+        "t": 1.4,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបន្ថែមចង្វាក់",
+        "progress": "50%",
+        "meta": "របៀបសាកល្បងប្រព័ន្ធ (មិនមែន AI) · ពេលវេលា 0:01"
+      },
+      {
+        "t": 2.2,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងពិនិត្យសំឡេង (កម្រិត និងផ្នែកស្ងាត់)",
+        "progress": null,
+        "meta": "របៀបសាកល្បងប្រព័ន្ធ (មិនមែន AI) · ពេលវេលា 0:02"
+      },
+      {
+        "t": 3.6,
+        "status": "ជោគជ័យ",
+        "message": "រួចរាល់",
+        "progress": "100%",
+        "meta": "របៀបសាកល្បងប្រព័ន្ធ (មិនមែន AI) · ពេលវេលា 0:02"
+      }
+    ],
+    "mv_1280x720_timeline": [
+      {
+        "t": 0,
+        "status": "រង់ចាំក្នុងជួរ",
+        "message": "កំពុងរង់ចាំក្នុងជួរ",
+        "progress": null,
+        "meta": "ពេលវេលា 0:00 · លំដាប់ក្នុងជួរ: 1"
+      },
+      {
+        "t": 1.5,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 15%",
+        "progress": "19%",
+        "meta": "ពេលវេលា 0:01"
+      },
+      {
+        "t": 2.2,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 44%",
+        "progress": "46%",
+        "meta": "ពេលវេលា 0:02"
+      },
+      {
+        "t": 3.7,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 73%",
+        "progress": "73%",
+        "meta": "ពេលវេលា 0:03"
+      },
+      {
+        "t": 4.4,
+        "status": "ជោគជ័យ",
+        "message": "រួចរាល់",
+        "progress": "100%",
+        "meta": "ពេលវេលា 0:04"
+      }
+    ],
+    "mv_1080x1920_timeline": [
+      {
+        "t": 0.7,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងរៀបចំអក្សរ និងផ្ទៃខាងក្រោយ",
+        "progress": "2%",
+        "meta": "ពេលវេលា 0:01"
+      },
+      {
+        "t": 1.5,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 6%",
+        "progress": "11%",
+        "meta": "ពេលវេលា 0:02"
+      },
+      {
+        "t": 2.9,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 22%",
+        "progress": "26%",
+        "meta": "ពេលវេលា 0:03"
+      },
+      {
+        "t": 3.7,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 37%",
+        "progress": "40%",
+        "meta": "ពេលវេលា 0:04"
+      },
+      {
+        "t": 5.1,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 53%",
+        "progress": "55%",
+        "meta": "ពេលវេលា 0:06"
+      },
+      {
+        "t": 5.8,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 69%",
+        "progress": "70%",
+        "meta": "ពេលវេលា 0:06"
+      },
+      {
+        "t": 6.6,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 86%",
+        "progress": "85%",
+        "meta": "ពេលវេលា 0:07"
+      },
+      {
+        "t": 8,
+        "status": "ជោគជ័យ",
+        "message": "រួចរាល់",
+        "progress": "100%",
+        "meta": "ពេលវេលា 0:07"
+      }
+    ]
+  },
+  "finished": "2026-11-23T03:17:52.221Z",
+  "passed": 12,
+  "failed": 0
+}

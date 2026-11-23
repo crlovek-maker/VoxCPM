@@ -1,0 +1,14 @@
+{
+  "name": "Khmer AI Music Studio 5-in-1",
+  "short_name": "Khmer Studio",
+  "description": "ផលិតចម្រៀងខ្មែរ និងអង់គ្លេស ដោយម៉ូដែលក្នុងម៉ាស៊ីនរបស់អ្នក",
+  "lang": "km",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0f1226",
+  "theme_color": "#0f1226",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

@@ -1,0 +1,706 @@
+{
+  "engine": "acestep",
+  "device": "desktop",
+  "started": "2026-11-23T03:45:30.658Z",
+  "steps": [
+    {
+      "name": "1. បើកកម្មវិធី និងពិនិត្យស្ថានភាព",
+      "ok": true,
+      "seconds": 0.2,
+      "evidence": {
+        "ffmpeg": {
+          "ok": true,
+          "has_ass": true,
+          "path": "/usr/bin/ffmpeg"
+        },
+        "engine": {
+          "id": "acestep",
+          "name": "ACE-Step 1.5 (turbo)",
+          "is_ai": true,
+          "state": "ready"
+        },
+        "engine_health_detail": {
+          "url": "http://127.0.0.1:8001",
+          "models_initialized": false,
+          "llm_initialized": false,
+          "loaded_model": "acestep-v15-turbo"
+        }
+      }
+    },
+    {
+      "name": "2. គម្រោងថ្មី ចាប់ផ្ដើមពីទំនុកខ្មែរ ៤ បន្ទាត់ (គ្មាន MP3 ជាមុន)",
+      "ok": true,
+      "seconds": 0.2,
+      "evidence": {
+        "project_id": "p_20261123_1fb66179",
+        "section_type": "chorus",
+        "lines": 4,
+        "versions_before": 0
+      }
+    },
+    {
+      "name": "3. ជ្រើសម៉ូដែល «ACE-Step 1.5» ហើយចុច «សាកល្បង Chorus ខ្លី»",
+      "ok": true,
+      "seconds": 0.2,
+      "evidence": null
+    },
+    {
+      "name": "4. ស្ថានភាពការងារពិត រហូតដល់បញ្ចប់ (ជោគជ័យ)",
+      "ok": true,
+      "seconds": 124.7,
+      "evidence": {
+        "final": "ជោគជ័យ",
+        "transitions": 26,
+        "first": {
+          "t": 0,
+          "status": "រង់ចាំក្នុងជួរ",
+          "message": "កំពុងរង់ចាំក្នុងជួរ",
+          "progress": null,
+          "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:01 · លំដាប់ក្នុងជួរ: 1"
+        },
+        "last": {
+          "t": 124.6,
+          "status": "ជោគជ័យ",
+          "message": "រួចរាល់",
+          "progress": "100%",
+          "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 2:03"
+        }
+      }
+    },
+    {
+      "name": "5. ស្ដាប់ក្នុងកម្មវិធី និងទាញយក WAV / MP3 ភ្លាមៗ",
+      "ok": true,
+      "seconds": 2.6,
+      "evidence": {
+        "played_seconds_in_browser": 1.74,
+        "wav": {
+          "bytes": 5376078,
+          "codec": "pcm_s16le",
+          "rate": "48000",
+          "seconds": 28
+        },
+        "mp3": {
+          "bytes": 673465,
+          "codec": "mp3",
+          "seconds": 28.032
+        },
+        "version": {
+          "id": "v_20261123_7b33e452",
+          "kind": "chorus_test",
+          "engine": {
+            "id": "acestep",
+            "name": "ACE-Step 1.5 (turbo)",
+            "is_ai": true,
+            "license": "MIT"
+          },
+          "analysis": {
+            "mean_db": -17.1,
+            "peak_db": -1,
+            "leading_silence": 0.5,
+            "trailing_silence": 0.45,
+            "silent_seconds": 0.95
+          },
+          "warnings": [],
+          "caption_sent": "Khmer pop ballad, slow tempo, emotional, tender, soft piano and acoustic guitar, bamboo flute (khloy), flute, acoustic guitar",
+          "request_sent": {
+            "prompt": "Khmer pop ballad, slow tempo, emotional, tender, soft piano and acoustic guitar, bamboo flute (khloy), flute, acoustic guitar",
+            "lyrics": "[Chorus]\nខ្ញុំស្រឡាញ់ស្រុកខ្មែរ ដូចបេះដូងខ្ញុំ\nទឹកដីដូនតា ភ្លឺថ្លាគ្រប់ពេល\nចម្រៀងនេះសូមឮ ក្នុងចិត្តជានិច្ច\nស្រុកខ្មែរអើយ ខ្ញុំនៅទីនេះ",
+            "vocal_language": "unknown",
+            "audio_format": "wav",
+            "batch_size": 1,
+            "thinking": false,
+            "use_cot_caption": false,
+            "use_cot_language": false,
+            "audio_duration": 28,
+            "use_random_seed": true
+          },
+          "notes": []
+        }
+      }
+    },
+    {
+      "name": "6. រូបគម្រប៖ នាំចូលរូប ដាក់ចំណងជើងខ្មែរ រក្សាទុក (16:9) ជាផ្ទៃខាងក្រោយ MV",
+      "ok": true,
+      "seconds": 3.7,
+      "evidence": {
+        "aspects_saved": [
+          "16:9"
+        ],
+        "mv_background": "plain_16x9_1795405661334.png",
+        "png_bytes": 360027,
+        "has_text": true,
+        "size": "1920x1080"
+      }
+    },
+    {
+      "name": "7. MV ខារ៉ាអូខេ៖ ចុចកំណត់ពេលចាប់ផ្ដើមឃ្លាទាំង ៤ ពេលកំពុងស្ដាប់",
+      "ok": true,
+      "seconds": 22.8,
+      "evidence": {
+        "tapped_at_seconds": [
+          1.17,
+          7.88,
+          14.62,
+          21.33
+        ],
+        "input_values": [
+          "0:01.16",
+          "0:07.88",
+          "0:14.61",
+          "0:21.33"
+        ],
+        "saved_start_times": [
+          1.16,
+          7.88,
+          14.61,
+          21.33
+        ],
+        "lines_match_original": true
+      }
+    },
+    {
+      "name": "8. មើលស៊ុមពិត (libass) ជាមុន",
+      "ok": true,
+      "seconds": 1.4,
+      "evidence": {
+        "img_box": {
+          "w": 866,
+          "h": 487
+        }
+      }
+    },
+    {
+      "name": "9. បង្កើត MP4 1920x1080",
+      "ok": true,
+      "seconds": 18.4,
+      "evidence": {
+        "file": "karaoke_1920x1080.mp4",
+        "bytes": 994173,
+        "video": "h264 1920x1080 yuv420p",
+        "audio": "aac 48000Hz",
+        "seconds": 28,
+        "song_seconds": 28,
+        "browser_video_meta": {
+          "w": 1920,
+          "h": 1080,
+          "d": 28
+        }
+      }
+    },
+    {
+      "name": "9. បង្កើត MP4 1080x1920",
+      "ok": true,
+      "seconds": 19.1,
+      "evidence": {
+        "file": "karaoke_1080x1920.mp4",
+        "bytes": 993343,
+        "video": "h264 1080x1920 yuv420p",
+        "audio": "aac 48000Hz",
+        "seconds": 28,
+        "song_seconds": 28,
+        "browser_video_meta": {
+          "w": 1080,
+          "h": 1920,
+          "d": 28
+        }
+      }
+    },
+    {
+      "name": "10. រៀបចំបង្ហោះ៖ Description / Credits / Hashtags + ចម្លងមួយចុច",
+      "ok": true,
+      "seconds": 0.3,
+      "evidence": {
+        "clipboard_has_description": true,
+        "platforms": [
+          {
+            "t": "▶ YouTube",
+            "chars": 542
+          },
+          {
+            "t": "📘 Facebook",
+            "chars": 498
+          },
+          {
+            "t": "🎵 TikTok",
+            "chars": 164
+          }
+        ]
+      }
+    },
+    {
+      "name": "11. បិទ/បើកឡើងវិញ៖ គម្រោងនៅដដែល (កែបន្តបាន)",
+      "ok": true,
+      "seconds": 0.1,
+      "evidence": {
+        "times_after_reload": [
+          "0:01.16",
+          "0:07.88",
+          "0:14.61",
+          "0:21.33"
+        ],
+        "mv_videos_listed": 2
+      }
+    }
+  ],
+  "problems": [],
+  "evidence": {
+    "job_timeline": [
+      {
+        "t": 0,
+        "status": "រង់ចាំក្នុងជួរ",
+        "message": "កំពុងរង់ចាំក្នុងជួរ",
+        "progress": null,
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:01 · លំដាប់ក្នុងជួរ: 1"
+      },
+      {
+        "t": 1.5,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងផ្ញើទំនុក និងការកំណត់ទៅម៉ូដែល",
+        "progress": null,
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:01"
+      },
+      {
+        "t": 3.1,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងផ្ទុកម៉ូដែលចូលអង្គចងចាំ (ការបង្កើតលើកដំបូងអាចយូរ)",
+        "progress": null,
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:03"
+      },
+      {
+        "t": 17.6,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតសំឡេង 52%",
+        "progress": "52%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:17"
+      },
+      {
+        "t": 19.1,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតសំឡេង 53%",
+        "progress": "54%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:19"
+      },
+      {
+        "t": 21.3,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតសំឡេង 55%",
+        "progress": "55%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:21"
+      },
+      {
+        "t": 23.4,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតសំឡេង 56%",
+        "progress": "57%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:23"
+      },
+      {
+        "t": 25.6,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតសំឡេង 58%",
+        "progress": "58%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:25"
+      },
+      {
+        "t": 27.1,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតសំឡេង 59%",
+        "progress": "60%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:27"
+      },
+      {
+        "t": 29.2,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតសំឡេង 61%",
+        "progress": "61%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:29"
+      },
+      {
+        "t": 31.4,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតសំឡេង 62%",
+        "progress": "63%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:31"
+      },
+      {
+        "t": 33.6,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតសំឡេង 64%",
+        "progress": "64%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:33"
+      },
+      {
+        "t": 35.1,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតសំឡេង 65%",
+        "progress": "66%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:35"
+      },
+      {
+        "t": 37.2,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតសំឡេង 67%",
+        "progress": "67%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:37"
+      },
+      {
+        "t": 39.4,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតសំឡេង 68%",
+        "progress": "69%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:39"
+      },
+      {
+        "t": 41.6,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតសំឡេង 70%",
+        "progress": "70%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:41"
+      },
+      {
+        "t": 43,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតសំឡេង 71%",
+        "progress": "71%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:43"
+      },
+      {
+        "t": 45.2,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតសំឡេង 72%",
+        "progress": "73%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:45"
+      },
+      {
+        "t": 47.4,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតសំឡេង 74%",
+        "progress": "74%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:47"
+      },
+      {
+        "t": 49.6,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតសំឡេង 75%",
+        "progress": "76%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:49"
+      },
+      {
+        "t": 51,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតសំឡេង 77%",
+        "progress": "77%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:51"
+      },
+      {
+        "t": 53.2,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតសំឡេង 78%",
+        "progress": "79%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:53"
+      },
+      {
+        "t": 57.6,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបំលែងលទ្ធផលទៅជាសំឡេង (decode) 80%",
+        "progress": "80%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 0:57"
+      },
+      {
+        "t": 121.1,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតសំឡេង 99%",
+        "progress": "99%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 2:01"
+      },
+      {
+        "t": 123.2,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងពិនិត្យសំឡេង (កម្រិត និងផ្នែកស្ងាត់)",
+        "progress": null,
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 2:03"
+      },
+      {
+        "t": 124.6,
+        "status": "ជោគជ័យ",
+        "message": "រួចរាល់",
+        "progress": "100%",
+        "meta": "ACE-Step 1.5 (turbo) · ពេលវេលា 2:03"
+      }
+    ],
+    "after_audio_cmd": "pkill -f acestep.api_server",
+    "mv_1920x1080_timeline": [
+      {
+        "t": 0,
+        "status": "រង់ចាំក្នុងជួរ",
+        "message": "កំពុងរង់ចាំក្នុងជួរ",
+        "progress": null,
+        "meta": "ពេលវេលា 0:00 · លំដាប់ក្នុងជួរ: 1"
+      },
+      {
+        "t": 1.5,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 2%",
+        "progress": "7%",
+        "meta": "ពេលវេលា 0:01"
+      },
+      {
+        "t": 2.2,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 7%",
+        "progress": "12%",
+        "meta": "ពេលវេលា 0:02"
+      },
+      {
+        "t": 3.7,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 13%",
+        "progress": "18%",
+        "meta": "ពេលវេលា 0:03"
+      },
+      {
+        "t": 4.4,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 19%",
+        "progress": "23%",
+        "meta": "ពេលវេលា 0:04"
+      },
+      {
+        "t": 5.2,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 25%",
+        "progress": "29%",
+        "meta": "ពេលវេលា 0:05"
+      },
+      {
+        "t": 6.6,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 31%",
+        "progress": "34%",
+        "meta": "ពេលវេលា 0:06"
+      },
+      {
+        "t": 7.3,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 37%",
+        "progress": "40%",
+        "meta": "ពេលវេលា 0:07"
+      },
+      {
+        "t": 8,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 40%",
+        "progress": "43%",
+        "meta": "ពេលវេលា 0:08"
+      },
+      {
+        "t": 9.5,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 46%",
+        "progress": "49%",
+        "meta": "ពេលវេលា 0:09"
+      },
+      {
+        "t": 10.2,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 52%",
+        "progress": "54%",
+        "meta": "ពេលវេលា 0:10"
+      },
+      {
+        "t": 11.7,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 58%",
+        "progress": "60%",
+        "meta": "ពេលវេលា 0:11"
+      },
+      {
+        "t": 12.4,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 64%",
+        "progress": "65%",
+        "meta": "ពេលវេលា 0:12"
+      },
+      {
+        "t": 13.1,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 70%",
+        "progress": "71%",
+        "meta": "ពេលវេលា 0:13"
+      },
+      {
+        "t": 14.5,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 77%",
+        "progress": "77%",
+        "meta": "ពេលវេលា 0:14"
+      },
+      {
+        "t": 15.3,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 84%",
+        "progress": "83%",
+        "meta": "ពេលវេលា 0:15"
+      },
+      {
+        "t": 16.7,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 90%",
+        "progress": "89%",
+        "meta": "ពេលវេលា 0:16"
+      },
+      {
+        "t": 17.4,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 96%",
+        "progress": "95%",
+        "meta": "ពេលវេលា 0:17"
+      },
+      {
+        "t": 18.1,
+        "status": "ជោគជ័យ",
+        "message": "រួចរាល់",
+        "progress": "100%",
+        "meta": "ពេលវេលា 0:18"
+      }
+    ],
+    "mv_1080x1920_timeline": [
+      {
+        "t": 0.7,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងរៀបចំអក្សរ និងផ្ទៃខាងក្រោយ",
+        "progress": "2%",
+        "meta": "ពេលវេលា 0:00"
+      },
+      {
+        "t": 2.3,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 5%",
+        "progress": "10%",
+        "meta": "ពេលវេលា 0:01"
+      },
+      {
+        "t": 3,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 11%",
+        "progress": "15%",
+        "meta": "ពេលវេលា 0:02"
+      },
+      {
+        "t": 3.7,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 17%",
+        "progress": "22%",
+        "meta": "ពេលវេលា 0:03"
+      },
+      {
+        "t": 5.1,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 23%",
+        "progress": "27%",
+        "meta": "ពេលវេលា 0:04"
+      },
+      {
+        "t": 5.9,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 30%",
+        "progress": "33%",
+        "meta": "ពេលវេលា 0:05"
+      },
+      {
+        "t": 7.3,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 36%",
+        "progress": "39%",
+        "meta": "ពេលវេលា 0:06"
+      },
+      {
+        "t": 8,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 43%",
+        "progress": "45%",
+        "meta": "ពេលវេលា 0:07"
+      },
+      {
+        "t": 8.8,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 48%",
+        "progress": "50%",
+        "meta": "ពេលវេលា 0:08"
+      },
+      {
+        "t": 10.2,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 53%",
+        "progress": "55%",
+        "meta": "ពេលវេលា 0:09"
+      },
+      {
+        "t": 10.9,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 59%",
+        "progress": "60%",
+        "meta": "ពេលវេលា 0:10"
+      },
+      {
+        "t": 11.7,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 65%",
+        "progress": "66%",
+        "meta": "ពេលវេលា 0:11"
+      },
+      {
+        "t": 13.1,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 67%",
+        "progress": "68%",
+        "meta": "ពេលវេលា 0:12"
+      },
+      {
+        "t": 13.9,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 72%",
+        "progress": "72%",
+        "meta": "ពេលវេលា 0:13"
+      },
+      {
+        "t": 15.3,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 77%",
+        "progress": "77%",
+        "meta": "ពេលវេលា 0:14"
+      },
+      {
+        "t": 16,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 83%",
+        "progress": "83%",
+        "meta": "ពេលវេលា 0:15"
+      },
+      {
+        "t": 16.7,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 89%",
+        "progress": "88%",
+        "meta": "ពេលវេលា 0:16"
+      },
+      {
+        "t": 18.2,
+        "status": "កំពុងដំណើរការ",
+        "message": "កំពុងបង្កើតវីដេអូ MP4 95%",
+        "progress": "94%",
+        "meta": "ពេលវេលា 0:17"
+      },
+      {
+        "t": 18.9,
+        "status": "ជោគជ័យ",
+        "message": "រួចរាល់",
+        "progress": "100%",
+        "meta": "ពេលវេលា 0:18"
+      }
+    ]
+  },
+  "finished": "2026-11-23T03:48:44.731Z",
+  "passed": 12,
+  "failed": 0
+}
