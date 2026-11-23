@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from khmer_studio import audio as audio_tools  # noqa: E402
+from khmer_studio import verify  # noqa: E402
 from khmer_studio.config import FONTS_DIR, Settings  # noqa: E402
 from khmer_studio.engines import build_engines  # noqa: E402
 from khmer_studio.engines.base import EngineContext, GenerationRequest  # noqa: E402
@@ -29,36 +30,16 @@ from khmer_studio.lyrics import build_engine_lyrics, new_section, suggest_durati
 from khmer_studio.presets import compose_caption  # noqa: E402
 
 
-def levenshtein(a: str, b: str) -> int:
-    prev = list(range(len(b) + 1))
-    for i, ca in enumerate(a, 1):
-        cur = [i]
-        for j, cb in enumerate(b, 1):
-            cur.append(min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (ca != cb)))
-        prev = cur
-    return prev[-1]
-
-
-def normalize_for_cer(text: str) -> str:
-    return "".join(ch for ch in text if ch.isalnum() or "ក" <= ch <= "៿")
-
-
 def run_asr(wav: Path, lyrics_lines, model_size: str, language: str) -> None:
     print("\n--- ការពិនិត្យស្វ័យប្រវត្តិ (ASR) — បង្ហាញសូចនាករប៉ុណ្ណោះ មិនអាចជំនួសការស្ដាប់ដោយត្រចៀកបានទេ ---")
     try:
-        from faster_whisper import WhisperModel  # type: ignore
-    except ImportError:
-        print("មិនទាន់ដំឡើង faster-whisper  →  pip install faster-whisper")
+        r = verify.compare(wav, lyrics_lines, model_size, language)
+    except RuntimeError as exc:
+        print(f"{exc}")
         return
-    model = WhisperModel(model_size, device="auto", compute_type="auto")
-    segments, info = model.transcribe(str(wav), language=language, beam_size=5)
-    heard = " ".join(seg.text.strip() for seg in segments).strip()
-    target = " ".join(lyrics_lines)
-    a, b = normalize_for_cer(heard), normalize_for_cer(target)
-    cer = levenshtein(a, b) / max(1, len(b))
-    print(f"ទំនុកដើម   : {target}")
-    print(f"ASR ស្ដាប់ឃើញ: {heard or '(ទទេ)'}")
-    print(f"CER ប្រហែល : {cer:.0%}  (0% = ដូចគ្នាទាំងស្រុង; Whisper ស្ដាប់ភាសាខ្មែរ និងសំឡេងច្រៀងមិនសូវត្រឹមត្រូវ)")
+    print(f"ទំនុកដើម   : {r['target']}")
+    print(f"ASR ស្ដាប់ឃើញ: {r['text'] or '(ទទេ)'}")
+    print(f"CER ប្រហែល : {r['cer']:.0%}  (0% = ដូចគ្នាទាំងស្រុង; Whisper ស្ដាប់ភាសាខ្មែរ និងសំឡេងច្រៀងមិនសូវត្រឹមត្រូវ)")
 
 
 def main() -> int:

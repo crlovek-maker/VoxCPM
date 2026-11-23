@@ -4,6 +4,7 @@
 //
 //   ENGINE=selftest|acestep  BASE=http://127.0.0.1:8000  OUT=dir  RESOLUTIONS=1280x720,1920x1080,1080x1920
 //   CHORUS_SECONDS=10 (selftest only)  JOB_TIMEOUT_MS=900000  DEVICE=desktop|iphone
+//   AFTER_AUDIO_CMD='pkill -f acestep.api_server'   (optional, low-RAM machines: free the model right after the song exists)
 //
 // Everything printed/recorded in report.json is what REALLY happened in this run.
 const { chromium, devices } = require('playwright');
@@ -49,7 +50,7 @@ async function waitJob(page, cardLocator, label, staleId = null) {
     const jobId = visible ? await cardLocator.getAttribute('data-job-id').catch(() => null) : null;
     if (visible && jobId && jobId !== staleId) {
       const st = (await cardLocator.locator('.badge').first().innerText()).trim();
-      const msg = (await cardLocator.locator('div').nth(1).innerText().catch(() => '')).trim();
+      const msg = (await cardLocator.locator(':scope > div').nth(1).innerText().catch(() => '')).trim();
       const width = await cardLocator.locator('.bar > i').evaluate((el) => el.style.width).catch(() => '');
       const meta = (await cardLocator.locator('.small.muted').first().innerText().catch(() => '')).trim();
       const key = `${st}|${msg}|${width}`;
@@ -147,6 +148,7 @@ async function waitJob(page, cardLocator, label, staleId = null) {
     const proj = await (await page.request.get(`${BASE}/api/projects/${pid}`)).json();
     versionId = proj.versions[0].id;
     await shot(page, '05_version');
+    if (process.env.AFTER_AUDIO_CMD) { try { execFileSync('bash', ['-c', process.env.AFTER_AUDIO_CMD]); report.evidence.after_audio_cmd = process.env.AFTER_AUDIO_CMD; } catch (e) { report.evidence.after_audio_cmd_error = String(e.message).slice(0, 200); } }
     return { played_seconds_in_browser: +playing[0].t.toFixed(2), wav: { bytes: wavBuf.length, codec: wi.streams[0].codec_name, rate: wi.streams[0].sample_rate, seconds: +wi.format.duration }, mp3: { bytes: mp3Buf.length, codec: mi.streams[0].codec_name, seconds: +mi.format.duration },
       version: { id: versionId, kind: proj.versions[0].kind, engine: proj.versions[0].engine, analysis: proj.versions[0].analysis, warnings: proj.versions[0].warnings, caption_sent: proj.versions[0].caption, request_sent: proj.versions[0].request, notes: proj.versions[0].notes } };
   });

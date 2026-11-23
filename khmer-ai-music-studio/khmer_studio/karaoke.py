@@ -43,9 +43,11 @@ DEFAULT_STYLE: Dict[str, Any] = {
     "color": "#FFD54A",  # highlighted (current) line
     "dim": "#FFFFFF",  # context lines
     "show_title": True,
-    "dim_background": 0.38,  # 0..0.8 darkening so text stays readable on any picture
+    "dim_background": 0.28,  # 0..0.8 darkening so text stays readable on any picture
+    "text_box": False,  # translucent dark box behind each line (best legibility on bright pictures)
     "progress_bar": True,
     "max_hold": 9.0,  # seconds a line stays highlighted at most
+    "trim_silence": True,  # cut a silent tail (>2.5 s) off the end of the video
 }
 
 
@@ -182,7 +184,11 @@ def build_ass(
     gap = lay.base * 0.55
     dim_size = int(lay.base * 0.7)
     cur_c, dim_c = hex_to_ass(st["color"]), hex_to_ass(st["dim"], 0.62)
-    outline = max(3, int(lay.base * 0.07))
+    outline = max(3, int(lay.base * 0.09))
+    if st.get("text_box"):  # BorderStyle 3 = opaque box drawn with the outline colour (alpha makes it translucent)
+        bstyle, cur_out, dim_out, shadow, out_col = 3, max(8, int(lay.base * 0.2)), max(6, int(dim_size * 0.18)), 0, "&H99000000"
+    else:
+        bstyle, cur_out, dim_out, shadow, out_col = 1, outline, max(2, outline - 1), 2, "&H00000000"
 
     timed = sorted((ln for ln in lines if ln.get("start") is not None and str(ln.get("text", "")).strip()), key=lambda x: float(x["start"]))
     header = (
@@ -191,8 +197,8 @@ def build_ass(
         "[V4+ Styles]\n"
         "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, "
         "Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n"
-        f"Style: Cur,{family},{lay.base},{cur_c},&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,{outline},2,8,20,20,20,1\n"
-        f"Style: Dim,{family},{dim_size},{dim_c},&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,{max(2, outline - 1)},1,8,20,20,20,1\n"
+        f"Style: Cur,{family},{lay.base},{cur_c},&H000000FF,{out_col},&H80000000,-1,0,0,0,100,100,0,0,{bstyle},{cur_out},{shadow},8,20,20,20,1\n"
+        f"Style: Dim,{family},{dim_size},{dim_c},&H000000FF,{out_col},&H80000000,-1,0,0,0,100,100,0,0,{bstyle},{dim_out},{min(shadow, 1)},8,20,20,20,1\n"
         f"Style: Title,{family},{int(lay.base * 1.25)},&H00FFFFFF,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,{outline},2,8,20,20,20,1\n"
         f"Style: Tag,{family},{int(lay.base * 0.5)},&H99FFFFFF,&H000000FF,&H00000000,&H80000000,0,0,0,0,100,100,0,0,1,2,0,1,40,20,{int(height * 0.035)},1\n\n"
         "[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n"
@@ -286,7 +292,7 @@ def ffmpeg_has_ass(ffmpeg: str) -> bool:
 
 def _video_filter(style: Dict[str, Any], duration: float, height: int, offset: float = 0.0, has_picture: bool = True) -> str:
     parts = ["format=yuv420p"]
-    dim = float(style.get("dim_background", 0.38))
+    dim = float(style.get("dim_background", DEFAULT_STYLE["dim_background"]))
     if not has_picture:
         dim = min(dim, 0.12)  # the built-in gradient is already dark enough
     if dim > 0:

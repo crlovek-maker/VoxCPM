@@ -126,31 +126,44 @@ def to_mp3(ffmpeg: str, src: Path, dst: Path, *, title: str = "", artist: str = 
         raise _fail("បំលែងទៅ MP3", res)
 
 
-_SIL_START = re.compile(r"silence_start: (-?[0-9.]+)")
-_SIL_END = re.compile(r"silence_end: ([0-9.]+) \| silence_duration: ([0-9.]+)")
+_SIL_EVENT = re.compile(r"silence_(start|end): (-?[0-9.]+)")
 
 
 def analyze(ffmpeg: str, path: Path, duration: Optional[float] = None) -> Dict[str, Any]:
-    """Loudness + leading/trailing silence. Lets us tell the user when a result is mostly silent."""
+    """Loudness + leading/trailing silence. Lets us tell the user when a result is mostly silent.
+
+    `silencedetect` reports a `silence_end` at end-of-file for trailing silence, so segments are rebuilt
+    from the start/end events, merged when they touch, and then compared with the file duration.
+    """
     res = run([ffmpeg, "-hide_banner", "-nostats", "-i", str(path), "-af", "volumedetect,silencedetect=noise=-50dB:d=0.4", "-f", "null", "-"], timeout=300)
     text = res.stderr or ""
     mean = re.search(r"mean_volume: (-?[0-9.]+) dB", text)
     peak = re.search(r"max_volume: (-?[0-9.]+) dB", text)
-    starts = [float(x) for x in _SIL_START.findall(text)]
-    ends = [(float(a), float(b)) for a, b in _SIL_END.findall(text)]
-    leading = 0.0
-    if starts and starts[0] <= 0.05 and ends:
-        leading = ends[0][0]
-    trailing = 0.0
-    if duration and starts and len(starts) > len(ends):
-        trailing = max(0.0, duration - starts[-1])
-    silent_total = sum(d for _, d in ends) + (trailing if len(starts) > len(ends) else 0)
+    segs: List[tuple] = []
+    pending: Optional[float] = None
+    for kind, val in _SIL_EVENT.findall(text):
+        t = float(val)
+        if kind == "start":
+            pending = max(0.0, t)
+        elif pending is not None:
+            segs.append((pending, t))
+            pending = None
+    if pending is not None:  # still silent when the file ended
+        segs.append((pending, duration if duration else pending))
+    merged: List[tuple] = []
+    for s0, e0 in segs:
+        if merged and s0 - merged[-1][1] < 0.1:
+            merged[-1] = (merged[-1][0], max(e0, merged[-1][1]))
+        else:
+            merged.append((s0, e0))
+    leading = merged[0][1] if merged and merged[0][0] <= 0.05 else 0.0
+    trailing = (duration - merged[-1][0]) if (merged and duration and merged[-1][1] >= duration - 0.15) else 0.0
     return {
         "mean_db": float(mean.group(1)) if mean else None,
         "peak_db": float(peak.group(1)) if peak else None,
         "leading_silence": round(leading, 2),
-        "trailing_silence": round(trailing, 2),
-        "silent_seconds": round(silent_total, 2),
+        "trailing_silence": round(max(0.0, trailing), 2),
+        "silent_seconds": round(sum(e0 - s0 for s0, e0 in merged), 2),
     }
 
 

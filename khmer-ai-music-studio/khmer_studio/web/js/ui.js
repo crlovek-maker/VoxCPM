@@ -1,11 +1,14 @@
 // Small DOM helpers (no framework): hyperscript, toasts, modal, confirm, clipboard, formatting.
 
-// The native Element.append() turns `null`/`undefined`/`false` into the TEXT "null"/"undefined"/"false".
-// All our view code uses the convention "falsy child = nothing" (like h() below), so make append() follow it.
-const nativeAppend = Element.prototype.append;
-Element.prototype.append = function append(...nodes) {
-  return nativeAppend.apply(this, nodes.flat(Infinity).filter((n) => n !== null && n !== undefined && n !== false));
-};
+// The native Element.append()/prepend()/replaceChildren() turn `null`/`undefined`/`false` into the TEXT
+// "null"/"undefined"/"false". All our view code uses the convention "falsy child = nothing" (like h() below),
+// so make those three follow it.
+for (const method of ['append', 'prepend', 'replaceChildren']) {
+  const native = Element.prototype[method];
+  Element.prototype[method] = function nullSafe(...nodes) {
+    return native.apply(this, nodes.flat(Infinity).filter((n) => n !== null && n !== undefined && n !== false));
+  };
+}
 
 export function h(tag, props, ...children) {
   const el = document.createElement(tag);

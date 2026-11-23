@@ -59,7 +59,7 @@ def default_project(pid: str, title: str = "", artist: str = "") -> Dict[str, An
         "karaoke": {
             "version_id": None,
             "lines": [],  # [{"text": "...", "start": 1.25 | None, "section": "chorus"}]
-            "style": {"font": "Noto Sans Khmer", "size": 64, "color": "#FFD54A", "dim": "#FFFFFF", "show_title": True},
+            "style": {},  # empty = use karaoke.DEFAULT_STYLE (the browser merges the same defaults)
             "outputs": [],
         },
         "publish": {

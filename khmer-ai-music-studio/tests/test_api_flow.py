@@ -259,3 +259,31 @@ def test_publish_generate_edit_and_ai_disclosure(client, project):
     saved = client.put(f"/api/projects/{pid}/publish", json={"texts": {"youtube": {"description": "កែហើយ"}, "bogus": {"x": "y"}}}).json()
     assert saved["publish"]["texts"]["youtube"]["description"] == "កែហើយ" and "bogus" not in saved["publish"]["texts"]
     assert saved["publish"]["texts"]["youtube"]["title"] == yt["title"]  # untouched fields are kept
+
+
+def test_english_lyrics_set_language_en_and_khmer_stays_unknown(tmp_path):
+    """English works too: no Khmer letters -> `vocal_language=en` is sent; Khmer lyrics keep `unknown` (km is not a listed language)."""
+    from fastapi.testclient import TestClient
+
+    from conftest import make_settings
+    from fake_acestep import FakeAceStep
+    from khmer_studio.main import create_app
+
+    with FakeAceStep() as fake:
+        app = create_app(make_settings(tmp_path, acestep_url=fake.url, default_engine="acestep"))
+        with TestClient(app) as c:
+            en = c.post("/api/projects", json={"title": "Song", "artist": "Me", "lyrics_text": "[Verse]\nWalking down the road tonight\nStars are shining bright"}).json()
+            job = wait_job(c, c.post(f"/api/projects/{en['id']}/generate", json={"mode": "chorus_test", "engine": "acestep"}).json()["id"], 60)
+            assert job["status"] == "succeeded", job
+            v = c.get(f"/api/projects/{en['id']}").json()["versions"][0]
+            assert fake.payloads[0]["vocal_language"] == "en" and fake.payloads[0]["lyrics"].startswith("[Verse 1]\nWalking down")
+            assert any("en" in n for n in v["notes"]) and v["vocal_language_sent"] == "en"
+
+            km = c.post("/api/projects", json={"title": "ខ្មែរ", "lyrics_text": "[Chorus]\n" + "\n".join(KHMER_4_LINES)}).json()
+            job = wait_job(c, c.post(f"/api/projects/{km['id']}/generate", json={"mode": "chorus_test", "engine": "acestep"}).json()["id"], 60)
+            assert job["status"] == "succeeded", job
+            assert fake.payloads[1]["vocal_language"] == "unknown"
+            # an explicit choice is never overridden
+            c.patch(f"/api/projects/{en['id']}", json={"music": {"vocal_language": "fr"}})
+            wait_job(c, c.post(f"/api/projects/{en['id']}/generate", json={"mode": "chorus_test", "engine": "acestep"}).json()["id"], 60)
+            assert fake.payloads[2]["vocal_language"] == "fr"

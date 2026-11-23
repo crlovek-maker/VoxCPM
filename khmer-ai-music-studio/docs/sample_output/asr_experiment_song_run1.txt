@@ -1,0 +1,17 @@
+=================== faster-whisper small (language hint: km) ===================
+ASR model      : faster-whisper small  (language=km, p=1)
+Original lyrics: ខ្ញុំស្រឡាញ់ស្រុកខ្មែរ ដូចបេះដូងខ្ញុំ ទឹកដីដូនតា ភ្លឺថ្លាគ្រប់ពេល ចម្រៀងនេះសូមឮ ក្នុងចិត្តជានិច្ច ស្រុកខ្មែរអើយ ខ្ញុំនៅទីនេះ
+ASR heard      : (nothing)
+Character error: 100%   (0% identical; >100% possible. Indicator only!)
+real	0m56.492s
+user	1m25.571s
+sys	0m33.408s
+=================== faster-whisper large-v3 (language hint: km) ===================
+ASR model      : faster-whisper large-v3  (language=km, p=1)
+Original lyrics: ខ្ញុំស្រឡាញ់ស្រុកខ្មែរ ដូចបេះដូងខ្ញុំ ទឹកដីដូនតា ភ្លឺថ្លាគ្រប់ពេល ចម្រៀងនេះសូមឮ ក្នុងចិត្តជានិច្ច ស្រុកខ្មែរអើយ ខ្ញុំនៅទីនេះ
+ASR heard      : សីម្យីម្នាតលាតខ្លាប់រាប់ព្លាប់បស្រាប់ពិញពីពាសិតច្ចុតផ្ល់ពិតសិតគឺអ្រាបង់សំម្រាប់ប្រាការប់ផ្លាហ្ញុប្រា
+Character error: 86%   (0% identical; >100% possible. Indicator only!)
+   [  0.00- 28.00] សីម្យីម្នាតលាតខ្លាប់រាប់ព្លាប់បស្រាប់ពិញពីពាសិតច្ចុតផ្ល់ពិតសិតគឺអ្រាបង់សំម្រាប់ប្រាការប់ផ្លាហ្ញុប្រា
+real	3m51.290s
+user	8m2.944s
+sys	1m35.952s

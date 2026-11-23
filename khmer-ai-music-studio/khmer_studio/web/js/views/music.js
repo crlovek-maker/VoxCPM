@@ -100,12 +100,19 @@ export async function renderMusic(root, { project, pid }) {
       grid.append(h('label', { class: 'field' }, h('span', { class: 'lbl' }, c.label, badge('ម៉ូដែលគាំទ្រផ្ទាល់', 'native')), input, c.note ? h('span', { class: 'small muted' }, c.note) : null));
     }
     nativeBox.append(grid);
+    // The 5Hz language-model planner exists only if the server was started with it (GPU with enough VRAM).
+    if (info.id === 'acestep' && info.health.detail && info.health.detail.llm_initialized) {
+      const lm = h('input', { type: 'checkbox', checked: !!music.use_lm });
+      lm.addEventListener('change', () => { music.use_lm = lm.checked; changed(); });
+      nativeBox.append(h('label', { class: 'check' }, lm, h('span', null, 'ប្រើ LM ផែនការរបស់ម៉ូដែល (thinking) ', badge('ម៉ូដែលគាំទ្រផ្ទាល់', 'native'),
+        h('div', { class: 'small muted' }, 'ឯកសារណែនាំសម្រាប់គុណភាពល្អជាង តែយឺតជាង និងប្រើ VRAM ច្រើនជាង។ ប្រសិនបើច្រៀងខ្មែរមិនច្បាស់ សាកល្បងបើក/បិទ ដើម្បីប្រៀបធៀប។'))));
+    }
   }
 
   // ======================= 4. generate + job ===========================
   const genCard = makeJobCard({
     onRetry: (job) => startGeneration(job.params && job.params.mode === 'chorus_test' ? 'chorus_test' : 'full'),
-    onSuccess: async (job, extraBox) => {
+    onSuccess: async (job, extraBox, opts = {}) => {
       await refreshProject();
       drawVersions();
       const v = p.versions.find((x) => x.id === job.result.version_id);
@@ -114,7 +121,7 @@ export async function renderMusic(root, { project, pid }) {
         extraBox.append(h('div', { class: 'note ok' }, h('strong', null, '✓ រួចរាល់ — ស្ដាប់ និងទាញយកបានភ្លាម៖'), (job.result.warnings || []).map((w) => h('div', { class: 'note warn' }, '⚠ ' + w)),
           (job.result.notes || []).map((n) => h('div', { class: 'small muted' }, '• ' + n))), versionCard(v, { quick: true }));
       }
-      toast('បទថ្មីរួចរាល់ ✓', 'ok');
+      if (!opts.restored) toast('បទថ្មីរួចរាល់ ✓', 'ok'); // no toast when we merely re-show the last result after a page reload
     },
   });
   const actions = h('div', { class: 'stack' });
@@ -350,7 +357,7 @@ export async function renderMusic(root, { project, pid }) {
   try {
     const { jobs } = await api.get(`/api/projects/${pid}/jobs`);
     const g = jobs.find((j) => j.kind === 'full' || j.kind === 'chorus_test');
-    if (g && (isActive(g) || g.status === 'failed' || (Date.now() - Date.parse(g.created_at)) < 15 * 60 * 1000)) { if (isActive(g)) trackJob(g, (j) => genCard.set(j)); else genCard.set(g); }
+    if (g && (isActive(g) || g.status === 'failed' || (Date.now() - Date.parse(g.created_at)) < 15 * 60 * 1000)) { if (isActive(g)) trackJob(g, (j) => genCard.set(j)); else genCard.set(g, { restored: true }); }
     const m = jobs.find((j) => j.kind === 'mix');
     if (m && isActive(m)) trackJob(m, (j) => mixCard.set(j));
   } catch { /* ignore */ }

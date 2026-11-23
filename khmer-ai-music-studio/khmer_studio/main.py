@@ -433,11 +433,17 @@ def create_app(settings: Optional[Settings] = None) -> FastAPI:
             duration = float(music.get("duration") or lyr.suggest_duration(n_lines, "full"))
         duration = max(info.min_duration, min(info.max_duration, duration))
 
+        lyrics_text = lyr.build_engine_lyrics(sections)
+        language = music.get("vocal_language") or "unknown"
+        auto_notes: List[str] = []
+        if not body.instrumental and language == "unknown" and not lyr.has_khmer(lyrics_text) and re.search(r"[A-Za-z]{3}", lyrics_text):
+            language = "en"  # English lyrics: tell the model explicitly instead of relying on auto-detection
+            auto_notes.append("ទំនុកជាភាសាអង់គ្លេស → កំណត់ភាសាសំឡេងច្រៀង = en ស្វ័យប្រវត្តិ")
         req = GenerationRequest(
-            lyrics=lyr.build_engine_lyrics(sections),
+            lyrics=lyrics_text,
             caption=presets.compose_caption(music, instrumental=body.instrumental),
             instrumental=body.instrumental,
-            vocal_language=music.get("vocal_language") or "unknown",
+            vocal_language=language,
             duration=duration,
             bpm=int(music["bpm"]) if music.get("bpm") else None,
             key_scale=music.get("key_scale") or "",
@@ -446,6 +452,7 @@ def create_app(settings: Optional[Settings] = None) -> FastAPI:
             steps=int(music["steps"]) if music.get("steps") else None,
             use_lm=bool(music.get("use_lm")),
             purpose=body.mode,
+            extra={"auto_notes": auto_notes},
         )
         kind = "chorus_test" if body.mode == "chorus_test" else "full"
         snapshot = [{"id": sec["id"], "type": sec["type"], "lines": list(sec["lines"])} for sec in sections]

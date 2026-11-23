@@ -48,9 +48,9 @@ def test_success_sends_khmer_lyrics_unchanged_and_reports_real_progress(tmp_path
     assert payload["audio_duration"] == 30.0
     assert "guidance_scale" not in payload  # turbo ignores CFG
     stages = [s for s, _ in events]
-    for stage in ("engine_check", "submitting", "generating", "decoding", "downloading"):
+    for stage in ("engine_check", "submitting", "generating", "decoding", "encoding", "downloading"):
         assert stage in stages
-    assert stages.index("generating") < stages.index("decoding") < stages.index("downloading")
+    assert stages.index("generating") < stages.index("decoding") < stages.index("encoding") < stages.index("downloading")
     assert any(f == 0.6 for s, f in events if s == "generating")  # the server's own progress value is passed through
     assert res.path.is_file() and res.path.stat().st_size > 1000
     assert res.seed == 42 and res.engine_meta["dit_model"] == "acestep-v15-turbo"

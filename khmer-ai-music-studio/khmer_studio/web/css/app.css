@@ -194,3 +194,9 @@ input[type=file] { font: inherit; font-size: .9rem; color: var(--muted); max-wid
 input[type=file]::file-selector-button { font: inherit; font-size: .9rem; min-height: 38px; padding: 4px 14px; margin-right: 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface2); color: var(--text); cursor: pointer; }
 .brand b, .brand span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 @media (max-width: 420px) { .brand span { display: none; } .brand b { font-size: .9rem; } }
+
+/* header: the brand shrinks (ellipsis) before the status chip can overlap it */
+.topbar-inner > .grow { display: none; }
+.brand { flex: 1 1 0; overflow: hidden; }
+.brand > div { min-width: 0; }
+.chip-status { flex: 0 1 auto; }

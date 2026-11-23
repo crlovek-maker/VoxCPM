@@ -105,7 +105,7 @@ export function makeJobCard({ onRetry, onCancel, onSuccess } = {}) {
 
   const card = {
     el,
-    set(j) {
+    set(j, opts = {}) {
       job = j;
       el.dataset.jobId = j.id;
       el.classList.remove('hidden', 'running', 'succeeded', 'failed');
@@ -137,7 +137,7 @@ export function makeJobCard({ onRetry, onCancel, onSuccess } = {}) {
       paintMeta();
       if (active && !ticker) ticker = setInterval(paintMeta, 500);
       if (!active && ticker) { clearInterval(ticker); ticker = null; }
-      if (j.status === 'succeeded' && succeededHandled !== j.id) { succeededHandled = j.id; if (onSuccess) onSuccess(j, extra); }
+      if (j.status === 'succeeded' && succeededHandled !== j.id) { succeededHandled = j.id; if (onSuccess) onSuccess(j, extra, opts); }
     },
     clear() { job = null; delete el.dataset.jobId; el.classList.add('hidden'); },
     get job() { return job; },

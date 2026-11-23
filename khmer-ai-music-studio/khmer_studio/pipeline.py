@@ -54,6 +54,8 @@ def quality_warnings(info: Dict[str, Any]) -> List[str]:
         warnings.append("សំឡេងស្ទើរតែស្ងាត់ទាំងស្រុង — ម៉ូដែលអាចមានបញ្ហា សូមសាកល្បងម្ដងទៀត")
     elif dur and stats.get("silent_seconds", 0) > max(6.0, dur * 0.4):
         warnings.append(f"មានផ្នែកស្ងាត់ច្រើន ({stats['silent_seconds']:.0f} វិនាទី) — ពិចារណាបង្កើតម្ដងទៀត")
+    if dur and stats.get("trailing_silence", 0) > 3.0:
+        warnings.append(f"ម៉ូដែលបញ្ចប់សំឡេងនៅវិនាទីទី {dur - stats['trailing_silence']:.0f} — ចុងបទស្ងាត់ {stats['trailing_silence']:.0f} វិនាទី (MV នឹងកាត់ចុងស្ងាត់ស្វ័យប្រវត្តិ ប្រសិនបើមិនបិទជម្រើស)")
     return warnings
 
 
@@ -94,7 +96,8 @@ def run_generation(
         "lyrics_snapshot": copy.deepcopy(sections_snapshot),
         "request": result.sent,
         "engine_meta": result.engine_meta,
-        "notes": list(result.notes),
+        "notes": list(result.notes) + list((req.extra or {}).get("auto_notes", [])),
+        "vocal_language_sent": req.vocal_language,
         "warnings": quality_warnings(finfo),
         "job_id": ctx.job_id,
         "source": None,
@@ -152,8 +155,14 @@ def run_mv(ctx: JobCtx, *, settings: Settings, store: ProjectStore, params: Dict
     if params.get("background_file"):
         bg = store.project_dir(pid) / "covers" / params["background_file"]
     ctx.progress(0.01, "rendering", "កំពុងរៀបចំវីដេអូខារ៉ាអូខេ")
+    duration = float(version["duration"])
+    trailing = float((version.get("analysis") or {}).get("trailing_silence") or 0)
+    if (params.get("style") or {}).get("trim_silence", True) and trailing > 2.5:
+        last_start = max((float(x["start"]) for x in params["lines"] if x.get("start") is not None), default=0.0)
+        duration = min(duration, max(duration - trailing + 1.5, last_start + 3.0))  # keep a 1.5 s tail; never cut off the last line
+        ctx.log(f"កាត់ចុងស្ងាត់ {trailing:.1f}s → MV ប្រវែង {duration:.1f}s")
     karaoke.render_mv(
-        settings.ffmpeg, audio_path, out, params["lines"], resolution=params["resolution"], duration=float(version["duration"]),
+        settings.ffmpeg, audio_path, out, params["lines"], resolution=params["resolution"], duration=duration,
         workdir=ctx.workdir / "mv", style=params.get("style"), title=project.get("title", ""), artist=project.get("artist", ""),
         background=bg, progress=ctx.progress, log=ctx.log, cancel_check=ctx.cancelled,
     )

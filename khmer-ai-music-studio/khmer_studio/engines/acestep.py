@@ -291,6 +291,9 @@ class AceStepEngine(Engine):
                 if first_load:
                     msg = "កំពុងផ្ទុកម៉ូដែលចូលអង្គចងចាំ (ការបង្កើតលើកដំបូងអាចយូរ)"
                 ctx.progress(None, "engine_loading", msg)
+            elif any(k in stage.lower() for k in ("prepar", "sav", "encod")):
+                # the server's last step ("Preparing audio data...", progress 0.99): writing the audio file
+                ctx.progress(frac, "encoding", f"កំពុងរៀបចំឯកសារសំឡេងក្នុង server ម៉ូដែល{pct}")
             elif "decod" in stage.lower():
                 # latents -> waveform (VAE). On CPU this is slow and the server reports a flat 80%.
                 ctx.progress(frac, "decoding", f"កំពុងបំលែងលទ្ធផលទៅជាសំឡេង (decode){pct}")

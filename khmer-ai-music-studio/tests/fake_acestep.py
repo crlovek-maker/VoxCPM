@@ -85,6 +85,7 @@ class FakeAceStep:
                         (0, {"stage": "queued", "progress": 0.0}),
                         (0, {"stage": "Generating music (batch size: 1)...", "progress": 0.6}),
                         (0, {"stage": "Decoding audio...", "progress": 0.8}),
+                        (0, {"stage": "Preparing audio data...", "progress": 0.99}),  # the real server's last stage (seen in a real run)
                     ]
                     if n <= len(script):
                         status, item = script[n - 1]

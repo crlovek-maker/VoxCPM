@@ -21,7 +21,7 @@ export async function renderKaraoke(root, { project, pid }) {
   let lines = [];
   let style = { ...presets.karaoke_defaults, ...p.karaoke.style };
   let nextIdx = 0; const undo = [];
-  let player = null; let raf = 0; let useCurrent = false;
+  let player = null; let raf = 0; let useCurrent = false; let loopIdx = null;
   const cleanups = [];
 
   // -------------------------- saving --------------------------
@@ -42,10 +42,11 @@ export async function renderKaraoke(root, { project, pid }) {
   async function loadVersion(id) {
     save.cancel(); versionId = id;
     const r = await api.post(`/api/projects/${pid}/karaoke/init`, { version_id: id, use_current_lyrics: useCurrent });
-    setProject(p = r); lines = p.karaoke.lines.map((l) => ({ ...l })); nextIdx = Math.max(0, lines.findIndex((l) => l.start == null)); undo.length = 0;
+    setProject(p = r); lines = p.karaoke.lines.map((l) => ({ ...l })); const firstUnset = lines.findIndex((l) => l.start == null); nextIdx = firstUnset < 0 ? lines.length : firstUnset; undo.length = 0; // all timed -> nothing to tap (avoid overwriting line 1 by accident)
     if (player) player.destroy();
     player = createPlayer(`/media/${pid}/audio/${id}.wav`);
     playerBox.replaceChildren(player.el);
+    applySpeed(); loopIdx = null;
     player.audio.addEventListener('play', startLoop); player.audio.addEventListener('pause', () => { cancelAnimationFrame(raf); paintPreview(); }); player.audio.addEventListener('seeked', paintPreview);
     drawLines(); paintStatus(); paintPreview();
   }
@@ -57,6 +58,9 @@ export async function renderKaraoke(root, { project, pid }) {
   const status = h('div', { class: 'small' });
   const undoBtn = h('button', { class: 'sm', type: 'button', onClick: () => { const u = undo.pop(); if (!u) return; lines[u.i].start = u.prev; nextIdx = u.i; drawLines(); paintStatus(); save(); } }, '↶ ត្រឡប់ការចុចចុងក្រោយ');
   const playerBox = h('div');
+  const speedSel = h('select', { 'aria-label': 'ល្បឿនចាក់', style: { maxWidth: '190px' } }, ...[['0.5', '0.5× យឺតណាស់'], ['0.75', '0.75× យឺត'], ['1', '1× ធម្មតា']].map(([v, l]) => h('option', { value: v, selected: v === '1' }, l)));
+  const applySpeed = () => { if (player) { player.audio.preservesPitch = true; player.audio.playbackRate = Number(speedSel.value); } };
+  speedSel.addEventListener('change', applySpeed);
   function doTap() {
     if (!player) return;
     let i = nextIdx;
@@ -102,6 +106,7 @@ export async function renderKaraoke(root, { project, pid }) {
           btn('−', 'មុន 0.1 វិនាទី', () => l.start != null && setStart(i, l.start - 0.1)), btn('+', 'យឺត 0.1 វិនាទី', () => l.start != null && setStart(i, l.start + 0.1)),
           btn('⏱', 'កំណត់ជាពេលបច្ចុប្បន្ន', () => setStart(i, player.time)),
           btn('▶', 'ចាក់ពីមុនឃ្លានេះបន្តិច', () => { if (l.start != null) { player.seek(Math.max(0, l.start - 1.5)); player.play(); } }, ''),
+          btn('🔁', 'ចាក់ឃ្លានេះម្ដងហើយម្ដងទៀត (ស្ដាប់ផ្ទៀងផ្ទាត់ពាក្យ)', () => { if (l.start == null) return; loopIdx = loopIdx === i ? null : i; if (loopIdx !== null) { player.seek(Math.max(0, l.start - 0.2)); player.play(); } drawLines(); }, loopIdx === i ? 'primary' : ''),
           btn('🎯', 'ឱ្យឃ្លានេះជាឃ្លាបន្ទាប់ដែលត្រូវចុច', () => { nextIdx = i; drawLines(); paintStatus(); }),
           btn('✕', 'សម្អាតពេល', () => setStart(i, null), 'danger'))));
     });
@@ -143,17 +148,32 @@ export async function renderKaraoke(root, { project, pid }) {
     stageLines.append(mk(c - 1, false), mk(c, true) || h('div', { class: 'l', style: { opacity: .8 } }, p.title || '♪'), mk(c + 1, false));
     document.querySelectorAll('.linerow').forEach((el, i) => el.classList.toggle('now', i === c));
   }
-  function startLoop() { cancelAnimationFrame(raf); const loop = () => { paintPreview(); if (player && !player.audio.paused) raf = requestAnimationFrame(loop); }; raf = requestAnimationFrame(loop); }
+  function loopEnd(i) {
+    const start = lines[i].start;
+    const nxt = lines.map((l) => l.start).filter((t) => t != null && t > start + 0.3).sort((a, b) => a - b)[0];
+    return nxt != null ? nxt : start + 6;
+  }
+  function startLoop() {
+    cancelAnimationFrame(raf);
+    const loop = () => {
+      if (loopIdx !== null && lines[loopIdx] && lines[loopIdx].start != null && player && !player.audio.paused && player.time >= loopEnd(loopIdx)) player.seek(Math.max(0, lines[loopIdx].start - 0.2));
+      paintPreview();
+      if (player && !player.audio.paused) raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+  }
   resSel.addEventListener('change', paintPreview); bgSel.addEventListener('change', paintPreview);
 
   // -------------------------- style --------------------------
   const fontSel = h('select', null, ...presets.fonts.map((f) => h('option', { value: f, selected: f === style.font }, f)));
-  const sizeIn = h('input', { type: 'range', min: 48, max: 130, step: 2, value: style.size });
+  const sizeIn = h('input', { type: 'range', min: 48, max: 160, step: 2, value: style.size });
   const colorIn = h('input', { type: 'color', value: style.color });
   const dimIn = h('input', { type: 'range', min: 0, max: 0.7, step: 0.02, value: style.dim_background });
+  const boxIn = h('input', { type: 'checkbox', checked: !!style.text_box });
+  const trimIn = h('input', { type: 'checkbox', checked: style.trim_silence !== false });
   const barIn = h('input', { type: 'checkbox', checked: !!style.progress_bar }); const titleIn = h('input', { type: 'checkbox', checked: !!style.show_title });
-  const styleChanged = () => { style = { ...style, font: fontSel.value, size: Number(sizeIn.value), color: colorIn.value, dim_background: Number(dimIn.value), progress_bar: barIn.checked, show_title: titleIn.checked }; paintPreview(); save(); };
-  [fontSel, sizeIn, colorIn, dimIn, barIn, titleIn].forEach((el) => el.addEventListener('input', styleChanged));
+  const styleChanged = () => { style = { ...style, font: fontSel.value, size: Number(sizeIn.value), color: colorIn.value, dim_background: Number(dimIn.value), progress_bar: barIn.checked, show_title: titleIn.checked, text_box: boxIn.checked, trim_silence: trimIn.checked }; paintPreview(); save(); };
+  [fontSel, sizeIn, colorIn, dimIn, barIn, titleIn, boxIn, trimIn].forEach((el) => el.addEventListener('input', styleChanged));
 
   // -------------------------- render + outputs --------------------------
   const mvCard = makeJobCard({ onSuccess: async () => { setProject(p = await api.get(`/api/projects/${pid}`)); drawOutputs(); toast('MV ខារ៉ាអូខេរួចរាល់ ✓', 'ok'); } });
@@ -201,6 +221,7 @@ export async function renderKaraoke(root, { project, pid }) {
       h('label', { class: 'check' }, useCurrentBox, h('span', null, 'ប្រើទំនុកបច្ចុប្បន្នរបស់គម្រោង (ជំនួសទំនុកដែលបានប្រើពេលបង្កើតកំណែនោះ)')),
       h('div', { class: 'small muted' }, 'តាមលំនាំដើម MV ប្រើទំនុកដែលបានប្រើពេលបង្កើតកំណែបទនោះ — ដូច្នេះ Chorus សាកល្បងមានតែ ៤ បន្ទាត់របស់វា។')),
     h('section', { class: 'card stack' }, h('h3', null, '២) កំណត់ពេលចាប់ផ្ដើមឃ្លា'), playerBox,
+      h('div', { class: 'row' }, h('span', { class: 'small muted' }, 'ល្បឿនចាក់៖'), speedSel, h('span', { class: 'small muted' }, 'ចាក់យឺត ដើម្បីស្ដាប់ពាក្យច្បាស់ — ពេលដែលកត់ត្រូវនៅត្រឹមត្រូវ')),
       h('div', { class: 'tapbar' }, tapBtn, h('div', { class: 'row spread' }, status, undoBtn)), linesBox, saveState),
     h('section', { class: 'card stack' }, h('h3', null, '៣) មើលសាកល្បង'), stage,
       h('div', { class: 'row' }, h('button', { type: 'button', onClick: realFrame }, '👁 មើលស៊ុមពិត (ដូច MP4)')),
@@ -209,7 +230,7 @@ export async function renderKaraoke(root, { project, pid }) {
       h('div', { class: 'grid2' }, h('label', { class: 'field' }, h('span', { class: 'lbl' }, 'ទំហំ/ប្រភេទវីដេអូ (សម្រាប់មើល)'), resSel), h('label', { class: 'field' }, h('span', { class: 'lbl' }, 'ផ្ទៃខាងក្រោយ'), bgSel),
         h('label', { class: 'field' }, h('span', { class: 'lbl' }, 'ពុម្ពអក្សរ'), fontSel), h('label', { class: 'field' }, h('span', { class: 'lbl' }, 'ទំហំអក្សរ'), sizeIn),
         h('label', { class: 'field' }, h('span', { class: 'lbl' }, 'ពណ៌ឃ្លាបន្លិច'), colorIn), h('label', { class: 'field' }, h('span', { class: 'lbl' }, 'ងងឹតផ្ទៃខាងក្រោយ'), dimIn)),
-      h('div', { class: 'row' }, h('label', { class: 'check' }, barIn, 'របារវឌ្ឍនភាព'), h('label', { class: 'check' }, titleIn, 'បង្ហាញចំណងជើង/សិល្បករ'))),
+      h('div', { class: 'row' }, h('label', { class: 'check' }, barIn, 'របារវឌ្ឍនភាព'), h('label', { class: 'check' }, titleIn, 'បង្ហាញចំណងជើង/សិល្បករ'), h('label', { class: 'check' }, boxIn, 'ប្រអប់ងងឹតក្រោយអក្សរ (អានងាយលើរូបភ្លឺ)'), h('label', { class: 'check' }, trimIn, 'កាត់ផ្នែកស្ងាត់ចុងបទ'))),
     h('section', { class: 'card stack' }, h('h3', null, '៥) បង្កើត MV (MP4 · FFmpeg)'),
       h('div', { class: 'row' },
         h('button', { class: 'primary big grow', type: 'button', onClick: () => render('1920x1080') }, '🎬 YouTube 1920×1080'),
