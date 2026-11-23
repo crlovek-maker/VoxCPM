@@ -37,7 +37,8 @@
 ## ២. អ្វីដែលបានដំណើរការពិតក្នុង sandbox (✅)
 
 ម៉ាស៊ីន sandbox៖ **គ្មាន GPU**, CPU 4 core (Intel Xeon មាន AMX), RAM 15 GB។ ខ្ញុំដំឡើង ACE-Step 1.5 ពិត (clone ពី GitHub, torch 2.10.0 ពី PyPI,
-ទម្ងន់ពី Hugging Face) ហើយរត់ `acestep-api` លើ **CPU**។
+ទម្ងន់ពី Hugging Face) ដោយដំឡើង dependency តាម `pyproject.toml` ដោយដៃ (`uv pip install`) ហើយរត់ server ដូចគ្នា `python -m acestep.api_server` លើ **CPU**
+(`acestep-api` ចង្អុលទៅ `acestep.api_server:main` តាម `pyproject.toml`)។ **ខ្ញុំមិនបានរត់ `uv sync` / `uv run acestep-api` ដោយខ្លួនឯងទេ** — ពាក្យបញ្ជាទាំងនោះមកពី README ផ្លូវការរបស់ ACE-Step (📄)។
 
 | ការពិនិត្យ | លទ្ធផល |
 |---|---|
@@ -167,10 +168,12 @@ studio បង្ហាញពីរក្រុមនេះដាច់ពីគ�
 ## ៧. របៀបសាកល្បងម៉ូដែលលើម៉ាស៊ីនរបស់អ្នក
 
 ```bash
-# ១) បើក server ម៉ូដែល (ក្នុងថត ACE-Step-1.5)
+# terminal ទី ១ — server ម៉ូដែល (ក្នុងថត ACE-Step-1.5 — ដំណើរការជាប់ជានិច្ច ទុកបើក)
 uv run acestep-api
 
-# ២) ក្នុងថត khmer-ai-music-studio — សាកល្បង Chorus ខ្មែរ ៤ បន្ទាត់ តាម adapter ពិត
+# terminal ទី ២ — កូដ studio (បើមិនទាន់មាន) ហើយសាកល្បង Chorus ខ្មែរ ៤ បន្ទាត់ តាម adapter ពិត
+git clone --branch claude/khmer-ai-music-studio-rtm3me https://github.com/crlovek-maker/VoxCPM.git
+cd VoxCPM/khmer-ai-music-studio
 python scripts/check_engine.py --duration 30
 #   → data/check_engine/<ពេល>/chorus.wav  (ស្ដាប់ជាមួយទំនុកដែលបោះពុម្ពនៅលើអេក្រង់)
 ```

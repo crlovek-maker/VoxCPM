@@ -90,6 +90,9 @@ uv sync
 uv run acestep-api            # REST API នៅ http://127.0.0.1:8001 — លើកដំបូងទាញយកម៉ូដែល ~១០ GB
 ```
 
+- ⚠️ `uv run acestep-api` ជា server ដែលដំណើរការជាប់ជានិច្ច — **ទុក terminal នេះបើក** ហើយធ្វើជំហាន ៤.២–៤.៣ ក្នុង **terminal ថ្មី**។
+- _ខ្ញុំមិនបានរត់ `uv sync` / `uv run acestep-api` ដោយខ្លួនឯងទេ — ពាក្យបញ្ជាទាំងនេះមកពី README ផ្លូវការរបស់ ACE-Step។
+  ក្នុង sandbox ខ្ញុំដំឡើង dependency ដោយដៃលើ CPU (`uv pip install` តាម `pyproject.toml`) ហើយរត់ server ដូចគ្នា `python -m acestep.api_server` (`acestep-api` ចង្អុលទៅវា)។_
 - Windows/macOS មានកញ្ចប់ដំឡើងស្រាប់ — មើល README របស់ ACE-Step។
 - VRAM តិច (≤ 6 GB)៖ `ACESTEP_INIT_LLM=false uv run acestep-api` (បិទ LM ផែនការ)។
 - GPU នៅម៉ាស៊ីនផ្សេង៖ `ACESTEP_API_HOST=0.0.0.0 ACESTEP_API_KEY=សម្ងាត់ uv run acestep-api` ហើយក្នុង studio កំណត់ `ACESTEP_URL=http://<IP>:8001` និង `ACESTEP_API_KEY`។
@@ -98,7 +101,10 @@ uv run acestep-api            # REST API នៅ http://127.0.0.1:8001 — លើ
 ### ៤.២ ដំឡើង studio
 
 ```bash
-cd khmer-ai-music-studio
+# កូដ studio (បើមិនទាន់មាន) — ក្នុង terminal ថ្មី ដាច់ពី server ម៉ូដែល។ បើ repo ជាឯកជន git នឹងសុំចូល GitHub។
+git clone --branch claude/khmer-ai-music-studio-rtm3me https://github.com/crlovek-maker/VoxCPM.git
+cd VoxCPM/khmer-ai-music-studio
+
 cp .env.example .env          # កែបើចាំបាច់ (ACESTEP_URL, STUDIO_TOKEN, LLM_MODEL …)
 ./run.sh                      # Windows: run.bat   — បង្កើត .venv ដំឡើង dependency ហើយចាប់ផ្ដើម
 ```
