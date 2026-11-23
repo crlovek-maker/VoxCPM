@@ -113,11 +113,14 @@ dependency មានតែ `fastapi uvicorn python-multipart pillow numpy` (ដ�
 
 ### ៤.៣ សាកល្បងម៉ូដែលជាមុន (ណែនាំខ្លាំង)
 
-ពេល `acestep-api` កំពុងដំណើរការ៖
+ពេល `acestep-api` កំពុងដំណើរការ (ក្នុង terminal ដាច់ដោយឡែក)៖
 
 ```bash
 python scripts/check_engine.py --duration 30
 ```
+
+ជាមួយម៉ូដែលពិត ពាក្យបញ្ជានេះប្រើ Python ធម្មតាបាន — **មិនត្រូវការដំឡើងកញ្ចប់ណាមួយទេ** (សាកល្បងពី clone ថ្មី ជាមួយ Python ទទេ លើ CPU — `docs/TEST_REPORT.md` A2)។
+**ការបង្កើតលើកដំបូងយូរ**៖ server ផ្ទុកម៉ូដែលពេលទទួលសំណើដំបូង (លើ CPU របស់ខ្ញុំ ~៤ នាទី + ~២ នាទីបង្កើតបទ)។ លើ GPU ❓ មិនបានវាស់។
 
 វានឹង៖ ពិនិត្យ FFmpeg/ពុម្ពអក្សរ/ការភ្ជាប់ម៉ូដែល → ផ្ញើទំនុកខ្មែរ ៤ បន្ទាត់ (`samples/khmer_chorus_4lines.txt`) ទៅម៉ូដែលពិត → បង្ហាញ progress →
 រក្សា `data/check_engine/<ពេល>/chorus.wav` + `record.json` → វិភាគសំឡេង (កម្រិត, ផ្នែកស្ងាត់)។ **ស្ដាប់ឯកសារនោះ** ដើម្បីដឹងថាម៉ូដែលច្រៀងខ្មែរបានឬអត់។
