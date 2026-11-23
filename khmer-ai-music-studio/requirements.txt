@@ -1,0 +1,6 @@
+# Khmer AI Music Studio — runtime dependencies (the AI models are installed separately, see README.md)
+fastapi>=0.110
+uvicorn>=0.27
+python-multipart>=0.0.9
+pillow>=10.0
+numpy>=1.24
